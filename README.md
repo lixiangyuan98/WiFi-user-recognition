@@ -26,3 +26,18 @@ Please cite the following paper if you use this repository in your research.
   year={2019}
 }
 ```
+
+## Preprocessing
+
+1. Run `preprocessing/preprocess_l1/preprocess_level1.m` in MATLAB.
+2. `python preprocess_l2.py --src src_dir --dataset dataset.h5 --sampling 1 --cols AMP --mc 1`
+
+## Train
+
+`python resnet_500-270.py --data_dir dataset.h5 --history_path history.pkl --save_path model.h5 --ngpu 4`
+
+## Tool
+
+* Plot confusion matrix
+
+  `python plot_confusion_matrix.py`

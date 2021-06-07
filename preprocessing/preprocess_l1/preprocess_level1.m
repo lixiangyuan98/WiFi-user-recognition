@@ -1,9 +1,11 @@
 clc
 clear all
 
-addpath('/home/kjakkala/neuralwave/preprocess/preprocess_l1')
-srcFolder = '/home/kjakkala/neuralwave/data/CSI_DATA_INTRUDER';
-destFolder = '/home/kjakkala/neuralwave/data/CSI_DATA_INTRUDER_L1';
+%addpath('/home/kjakkala/neuralwave/preprocess/preprocess_l1')
+%源数据根目录，每一类数据放入一个子目录
+srcFolder = '~/data/input';
+%输出mat文件目录
+destFolder = '~/data/CSI_DATA_INTRUDER_L1';
 
 d = dir(srcFolder);
 isub = [d(:).isdir];

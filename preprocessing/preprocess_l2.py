@@ -243,10 +243,17 @@ def compute_data(file_path, sampling, cols1, cols2, label, filter_size):
         raise ValueError("File dosn't exits")
 
     pca = PCA(3)
-    csi_trace = get_csi(loadmat(file_path))[2000:10000]
+    csi_trace = get_csi(loadmat(file_path))
     csi_trace = csi_trace[::sampling]
-    csi_trace = fill_gaps(csi_trace, technique='mean')[:, cols1:cols2]
+    csi_trace = fill_gaps(csi_trace, technique='mean')
+    # 可能有个别数据包长度为0, 会导致后面的代码抛出异常
+    # 输出数据shape以检查长度为0的数据包
+    # print(csi_trace.shape, file_path)
+    csi_trace = csi_trace[:, cols1:cols2]
     csi_trace -= np.mean(csi_trace, axis=0)
+    # 将数据包统一为长度3000, 超出的长度强行截断, 不足的直接补0
+    # ？是否有更好的处理方式
+    csi_trace = np.resize(csi_trace, (3000, csi_trace.shape[1]))
     csi_trace = pca.fit_transform(csi_trace)
     csi_trace = pca.inverse_transform(csi_trace)
     for i in range(csi_trace.shape[1]):
@@ -316,7 +323,8 @@ else:
         format(cols))
 
 filter_size = 91
-rows = int(8000 / sampling)
+packets = 3000
+rows = int(packets / sampling)
 
 print("rows:", rows, "| cols:", cols1, "-", cols2)
 sys.stdout.flush()

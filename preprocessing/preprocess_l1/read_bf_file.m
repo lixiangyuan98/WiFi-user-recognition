@@ -6,7 +6,7 @@
 %
 function ret = read_bf_file(filename)
 %% Input check
-error(nargchk(1,1,nargin));
+narginchk(1,1);
 
 %% Open file
 f = fopen(filename, 'rb');
